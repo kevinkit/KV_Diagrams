@@ -12,20 +12,21 @@ int abfrage()
 		printf("Die Variablen muss kleiner gleich 4 oder größer als 0 sein!\n");
 		local_var = abfrage();
 	}
-	
+
 	return local_var;
 }
 
 
 void indexes(int start,int* loc_index)
 {
-	
+
 	loc_index[0] = start;
 	loc_index[1] = start+1;
 	loc_index[2] = start+5;
 	loc_index[3] = start+4;
 
 }
+
 int main()
 {
 	int var;
@@ -41,8 +42,8 @@ int main()
 		gr = gr*2;
 	}
 
-	printf("Es existieren %d Eingangsmöglichkeiten", gr);
-	
+	printf("Es existieren %d Eingangsmöglichkeiten\n", gr);
+
 	val = (int*) malloc(sizeof(int) * (gr+ 1));
 
 	val = values(gr);
@@ -52,79 +53,97 @@ int main()
 	switch(gr)
 	{
 		printf("\n");
-  		case(2): 
-			for(i=0; i <=1; i++)
-			{
-				printf("%d\t", val[i]);
-			}
+		case(2): 
+		for(i=0; i <=1; i++)
+		{
+			printf("%d\t", val[i]);
+		}
+		break;
 		case(4):
-			for(i=0; i <= 1; i++)
-			{
-				printf("%d\t", val[i]);
-			}	
-			printf("\n");
-			for(i=0; i <= 1; i++)
-			{
-				printf("%d\t",val[i+2]);
-			}
-			 break;
+		for(i=0; i <= 1; i++)
+		{
+			printf("%d\t", val[i]);
+		}	
+		printf("\n");
+		for(i=0; i <= 1; i++)
+		{
+			printf("%d\t",val[i+2]);
+		}
+		break;
 		case(8): 
-			indexes(0,index);
-			for(i=0; i <= 3; i++)
-			{
-				printf("%d\t", val[index[i]]);
-			} 
-			printf("\n");
-			indexes(2,index);
-			for(i=0; i <=3;i++)
-			{
-				printf("%d\t", val[index[i]]);
-			}
-			
-			break;
-		case(16): 
-			
-			indexes(0,index);
-                        for(i=0; i <= 3; i++)
-                        {
-                                printf("%d\t", val[index[i]]);
-                        }
-                        printf("\n");
-                        indexes(2,index);
-                        for(i=0; i <=3;i++)
-                        {
-                                printf("%d\t", val[index[i]]);
-                        }
-			printf("\n");
-			indexes(10,index); //ACHTUNG DEZIMAL ANSTATT OCTAL!
-			for(i=0; i <=3 ; i++)
-			{
-				printf("%d\t", val[index[i]]);
-			}
-			printf("\n");
-			indexes(8,index); //ACHTUNG DEZIMAL ANSTATT OCTAL!
-			for(i=0; i <= 3; i++)
-			{
-				printf("%d\t", val[index[i]]);	
-			}
+		indexes(0,index);
+		for(i=0; i <= 3; i++)
+		{
+			printf("%d\t", val[index[i]]);
+		} 
+		printf("\n");
+		indexes(2,index);
+		for(i=0; i <=3;i++)
+		{
+			printf("%d\t", val[index[i]]);
+		}
 
-		        break;
-			default: printf("Keine Potenz von hoch 2 möglich in der Aufteilung !\n");
-				exit(1);
+		break;
+		case(16): 
+
+		indexes(0,index);
+		for(i=0; i <= 3; i++)
+		{
+			printf("%d\t", val[index[i]]);
+		}
+		printf("\n");
+		indexes(2,index);
+		for(i=0; i <=3;i++)
+		{
+			printf("%d\t", val[index[i]]);
+		}
+		printf("\n");
+		indexes(10,index); //ACHTUNG DEZIMAL ANSTATT OCTAL!
+		for(i=0; i <=3 ; i++)
+		{
+			printf("%d\t", val[index[i]]);
+		}
+		printf("\n");
+		indexes(8,index); //ACHTUNG DEZIMAL ANSTATT OCTAL!
+		for(i=0; i <= 3; i++)
+		{
+			printf("%d\t", val[index[i]]);	
+		}
+
+		break;
+		default: printf("Keine Potenz von hoch 2 möglich in der Aufteilung !\n");
+			 exit(1);
 	}
 
 	int checker;
+	int one_place;
+	int zero_place;
 
 	checker = check_all(val, gr);
 
+	//nachschauen ob evtl. alles die gleichen Werte sind
 	switch(checker)
 	{
 		case(0): printf("alles Nuller...\n"); break;
 		case(1): printf("alles einser ...\n"); break;
 		case(-1): printf("bisschen durschmischt alles ...\n");break; 
-
 	}
+
+	//Nach einzelner 1 suchen
+	one_place = check_single(val,gr,1);
+	if(one_place != -1)
+	{
+		printf("Es gibt nur eine 1 an der Stelle %d\n", one_place);
+	}	
 	
+	//Nach einzelner 0 suchen
+	zero_place = check_single(val,gr,0);
+	if(zero_place != -2)
+	{
+		printf("Es gibt nur eine 0 an der Stelle %d\n", zero_place);
+	}
+
+
 	free(val);
 	return 1;
 
